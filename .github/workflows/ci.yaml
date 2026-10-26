@@ -38,7 +38,7 @@ jobs:
       # Step 3: Install the dependencies needed to run the tests
       - name: Install Python dependencies
         run: |
-          python -m pip innstall --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt 
 
       #Step 4: Execute the automated tests
