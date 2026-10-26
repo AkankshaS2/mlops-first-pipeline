@@ -10,12 +10,12 @@ on:
   #Run CI whenever code is pushed to main branch
   push:
     branches:
-      - main
+      - master
 
       #also validate proposed changes before they are merged
     pull_request:
       branches:
-        - main
+        - master
 #
 permissions:
   contents: read
