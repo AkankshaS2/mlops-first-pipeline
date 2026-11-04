@@ -46,12 +46,12 @@ def create_app(model_loader: Callable=load_mlflow_model,
     
     if version_loader is None:
         def version_loader():
-            client = mlflow.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
-            champion = client.get_model_version_by_alias(
-                        name="iris-classifier",
-                        alias="champion"
-                    )
-            return champion.version
+            # client = mlflow.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+            # champion = client.get_model_version_by_alias(
+            #             name="iris-classifier",
+            #             alias="champion"
+            #         )
+            # return champion.version
     
     # lifespan function executes when the application starts...
     @asynccontextmanager
