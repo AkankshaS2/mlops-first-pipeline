@@ -45,7 +45,8 @@ def create_app(model_loader: Callable=load_mlflow_model,
                version_loader: Callable=None):
     
     if version_loader is None:
-        def version_loader():
+        version_loader=load_model_version
+        # def version_loader():
             # client = mlflow.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
             # champion = client.get_model_version_by_alias(
             #             name="iris-classifier",
