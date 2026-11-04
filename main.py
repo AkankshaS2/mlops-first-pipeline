@@ -38,7 +38,11 @@ class IrisRequest(BaseModel):
     sepal_width: float = Field(gt=0)
     petal_length: float = Field(gt=0)
     petal_width: float = Field(gt=0)
-
+    
+def load_model_version():
+    client = mlflow.MlflowClient(
+        tracking_uri=MLFLOW_TRACKING_URI
+    )
 
 # Application Factory
 def create_app(model_loader: Callable=load_mlflow_model, 
