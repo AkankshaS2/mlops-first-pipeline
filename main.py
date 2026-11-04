@@ -38,7 +38,7 @@ class IrisRequest(BaseModel):
     sepal_width: float = Field(gt=0)
     petal_length: float = Field(gt=0)
     petal_width: float = Field(gt=0)
-    
+
 def load_model_version():
     client = mlflow.MlflowClient(
         tracking_uri=MLFLOW_TRACKING_URI
@@ -65,17 +65,19 @@ def create_app(model_loader: Callable=load_mlflow_model,
         # Injected loader can be real MLFlow or a test model
         try:
             app.state.model = model_loader()
+            app.state.model_version = version_loader()
+
         except Exception as ex:
             raise RuntimeError(
                 f"Failed to load MLFlow champion model..\n{ex}"
             )
 
-        client = mlflow.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
-        champion = client.get_model_version_by_alias(
-            name="iris-classifier",
-            alias="champion"
-        )
-        app.state.model_version = version_loader()
+        # client = mlflow.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+        # champion = client.get_model_version_by_alias(
+        #     name="iris-classifier",
+        #     alias="champion"
+        # )
+        # app.state.model_version = version_loader()
         print(f"Loaded iris-classfier version {app.state.model_version}")
         yield
 
