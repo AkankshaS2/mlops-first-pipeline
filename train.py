@@ -8,6 +8,8 @@ from sklearn.metrics import accuracy_score,precision_score,recall_score
 import mlflow
 import mlflow.sklearn
 
+#Client API 
+from mlflow import MlflowClient\
 #Configure mlflow tracking
 # MLFlow server store experiment metadata and model records 
 mlflow.set_tracking_uri("http://127.0.0.1:6001")
@@ -82,5 +84,39 @@ mlflow.sklearn.log_model(
     skops_trusted_types=[
         "sklearn.tree._tree.Tree"
     ]
+)
+
+# Assign the "champion" alias to the newly registered model
+client = MlflowClient()
+#Identify the current training run
+current_run_id=mlflow.active_run().info.run_id
+#Retrieve all versions registered under this model name
+registered_versions=client.search_model_versions(
+    "name":"iris-classifier"
+)
+
+ #Find the version created by the training run
+current_model_version=next(
+    (
+    version
+    for version in registered_versions:
+    if version.run_id==current_run_id
+    ),
+    None
+)
+if current_model_version is None:
+    raise RuntimeError(
+        "Model was logged but its registered version could not be found"
+    )
+
+# Assign the alias only afetr model has passed quality gate
+client.set_registered_model_alias(
+    name="iris-classifier",
+    alias="champion",
+    version=current_model_version.version
+)
+print(
+    f"Champion alias assigned to model version"
+    f${current_model_version}
 )
 print("Registered Model: iris-classifier")
