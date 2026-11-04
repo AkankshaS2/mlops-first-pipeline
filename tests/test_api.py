@@ -34,7 +34,9 @@ def test_health_endpoint(client):
 
     response = client.get("/health")
     assert response.status_code == 200
-    # assert response.json() == {"status": "healthy"}
+    assert response.json()["status"] == "healthy"
+    # assert result["status"] == "healthy"
+    # assert result["model_version"] == "test-version"
     assert response.json()["model_version"]=="test-version"
 
 def test_valid_iris_prediction(client):
